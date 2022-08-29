@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from "prop-types";
+import {Person} from "../models/person.model";
 
 function PersonDetail(props) {
 
@@ -51,7 +52,7 @@ function PersonDetail(props) {
 }
 
 PersonDetail.propTypes = {
-    person: PropTypes.object.isRequired
+    person: PropTypes.instanceOf(Person)
 }
 
 export default PersonDetail;
