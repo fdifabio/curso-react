@@ -4,11 +4,20 @@ import {Person} from "../models/person.model";
 
 function PersonDetail(props) {
 
-    const [person, setPerson] = useState(null);
+    const [person, setPerson] = useState({firstName: '', lastName: '', age: ''});
+
+    // useEffect(() => {
+    //     setPerson({id: props.personId, firstName: "Juan", lastName: 'Perez', age: 19})
+    // }, [])
+    // useEffect(() => {
+    //     fetch("").then(res => setPerson(res));
+    //     return () => {console.log("hacer algo al desmontar")}
+    // }, [])
 
     useEffect(() => {
-        setPerson(props.person);
-    }, [props.person])
+        setPerson({id: props.personId, firstName: "Juan", lastName: 'Perez', age: 19})
+    }, [person])
+
 
     function handleNameChange(value) {
         setPerson({...person, firstName: value})
@@ -24,12 +33,12 @@ function PersonDetail(props) {
 
     if (person) {
         return (
-            <div>
+            <div >
                 <p>Editar la informacion de una persona</p>
 
                 <label>
                     Nombre
-                    <input type="text" value={person.firstName} onChange={e => handleNameChange(e.target.value)}/>
+                    <input type="text" value={person.firstName} onChange={ e => handleNameChange(e.target.value)}/>
                 </label>
                 <br/>
 
@@ -52,7 +61,7 @@ function PersonDetail(props) {
 }
 
 PersonDetail.propTypes = {
-    person: PropTypes.instanceOf(Person)
+    personId: PropTypes.number.isRequired
 }
 
 export default PersonDetail;

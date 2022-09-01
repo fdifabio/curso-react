@@ -7,16 +7,29 @@ class PersonDetailClass extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            person: null
+            loading: false,
+            person: null,
+            error: ''
         }
     }
 
     componentDidMount() {
-        this.setState({person: this.props.person});
+        this.setState({loading: true})
+        const requestOptions = {
+            headers: {'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZkaWZhYmlvQHVucm4uZWR1LmFyIiwic3ViIjoyNCwiaWF0IjoxNjU3NzYyNDY2LCJleHAiOjE2NTc3NjMzNjZ9.az6HIrCGLsQyxFtC05ruSZEJmwebWXGV9AfT9bxsjkI'},
+            method: 'GET',
+        }
+        fetch('http://tesis.lia.unrn.edu.ar:3000/' + 'persons/' + this.props.personId, requestOptions )
+            .then(response => response.json())
+            .then(data =>
+                this.setState({ loading: false, person: data }),
+                 (error) =>
+                this.setState({loading: false, error: error})
+            );
     }
 
-    handleNameChange(value) {
-        this.setState({person: {...this.state.person, firstName: value}})
+    handleNameChange(event) {
+        this.setState({person: {...this.state.person, firstName: event.target.value}})
     }
 
     handleLastNameChange(value) {
@@ -36,21 +49,19 @@ class PersonDetailClass extends Component {
                     <label>
                         Nombre
                         <input type="text" value={this.state.person.firstName}
-                               onChange={e => this.handleNameChange(e.target.value)}/>
+                        onChange={(event) => this.handleNameChange(event)}/>
                     </label>
                     <br/>
 
                     <label>
                         Apellido
-                        <input type="text" value={this.state.person.lastName}
-                               onChange={e => this.handleLastNameChange(e.target.value)}/>
+                        <input type="text" value={this.state.person.lastName}/>
                     </label>
                     <br/>
 
                     <label>
                         Edad
-                        <input type="number" value={this.state.person.age}
-                               onChange={e => this.handleAgeChange(e.target.value)}/>
+                        <input type="number" value={this.state.person.age}/>
                     </label>
                     <br/>
                 </div>
@@ -62,8 +73,7 @@ class PersonDetailClass extends Component {
 }
 
 PersonDetailClass.propTypes = {
-    person: PropTypes.instanceOf(Person)
+    personId: PropTypes.number.isRequired
 }
-
 
 export default PersonDetailClass;

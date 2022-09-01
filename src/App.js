@@ -18,8 +18,8 @@ function App() {
                 {/*<Welcome name={'Federico'}></Welcome>*/}
                 {/*<WelcomeClass></WelcomeClass>*/}
 
-                {/*<PersonDetail person={new Person(1, "Juan", "Perez", 18)}></PersonDetail>*/}
-                <PersonDetailClass person={new Person(1, "Juan", "Perez", 18)}></PersonDetailClass>
+                {/*<PersonDetail personId={1}></PersonDetail>*/}
+                <PersonDetailClass personId={1}></PersonDetailClass>
             </header>
         </div>
     );

@@ -11,12 +11,4 @@ export class Person {
         this.lastName = lastName;
         this.age = age;
     }
-
-    showName(): string{
-        return this.firstName + " " + this.lastName;
-    }
-
-    isAdult(): boolean {
-        return this.age >= 18;
-    }
 }
