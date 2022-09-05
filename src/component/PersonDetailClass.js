@@ -16,10 +16,10 @@ class PersonDetailClass extends Component {
     componentDidMount() {
         this.setState({loading: true})
         const requestOptions = {
-            headers: {'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZkaWZhYmlvQHVucm4uZWR1LmFyIiwic3ViIjoyNCwiaWF0IjoxNjU3NzYyNDY2LCJleHAiOjE2NTc3NjMzNjZ9.az6HIrCGLsQyxFtC05ruSZEJmwebWXGV9AfT9bxsjkI'},
+            headers: {'Authorization': process.env.REACT_APP_TOKEN},
             method: 'GET',
         }
-        fetch('http://tesis.lia.unrn.edu.ar:3000/' + 'persons/' + this.props.personId, requestOptions )
+        fetch(process.env.REACT_APP_API_PERSON + this.props.personId, requestOptions )
             .then(response => response.json())
             .then(data =>
                 this.setState({ loading: false, person: data }),
