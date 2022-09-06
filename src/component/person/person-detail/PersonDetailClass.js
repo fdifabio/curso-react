@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
-import {Person} from "../models/person.model";
+import {Person} from "../../../models/person.model";
 
 class PersonDetailClass extends Component {
 
@@ -49,19 +49,21 @@ class PersonDetailClass extends Component {
                     <label>
                         Nombre
                         <input type="text" value={this.state.person.firstName}
-                        onChange={(event) => this.handleNameChange(event)}/>
+                               onChange={(event) => this.handleNameChange(event)}/>
                     </label>
                     <br/>
 
                     <label>
                         Apellido
-                        <input type="text" value={this.state.person.lastName}/>
+                        <input type="text" value={this.state.person.lastName}
+                               onChange={(event) => this.handleLastNameChange(event)}/>
                     </label>
                     <br/>
 
                     <label>
                         Edad
-                        <input type="number" value={this.state.person.age}/>
+                        <input type="number" value={this.state.person.age}
+                               onChange={(event) => this.handleAgeChange(event)}/>
                     </label>
                     <br/>
                 </div>
@@ -73,7 +75,8 @@ class PersonDetailClass extends Component {
 }
 
 PersonDetailClass.propTypes = {
-    personId: PropTypes.number.isRequired
+    personId: PropTypes.number.isRequired,
+    onGoBack: PropTypes.func.isRequired
 }
 
 export default PersonDetailClass;

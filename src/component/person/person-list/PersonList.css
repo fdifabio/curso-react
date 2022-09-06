@@ -1,0 +1,23 @@
+.person-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+.person-detail {
+    display: flex;
+    gap: 20px;
+}
+
+.button-container {
+    display: flex;
+    gap: 20px;
+    align-self: center;
+    height: 25px;
+}
+
+.person-button {
+
+}

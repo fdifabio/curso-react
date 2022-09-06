@@ -1,25 +1,31 @@
 import logo from './logo.svg';
 import './App.css';
-// import Welcome from "./Welcome";
-// import WelcomeClass from "./WelcomeClass";
-import PersonDetail from "./component/PersonDetail";
-import {Person} from "./models/person.model";
-import PersonDetailClass from "./component/PersonDetailClass";
+import PersonList from "./component/person/person-list/PersonList";
+import {useState} from "react";
+import PersonDetail from "./component/person/person-detail/PersonDetail";
 
 function App() {
+
+    const [editingPerson, setEditingPerson] = useState(null);
+
+    const renderPersonDetail = (person) => {
+        setEditingPerson(person);
+    }
+
+    const renderPerson = () => {
+        if (editingPerson)
+            return (<PersonDetail personId={editingPerson.id} onGoBack={renderPersonDetail}></PersonDetail>)
+
+        else
+            return (<PersonList onClickEdit={renderPersonDetail}></PersonList>)
+
+    }
+
     return (
         <div className="App">
             <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-
-                {/*<Welcome name={'Federico'}></Welcome>*/}
-                {/*<WelcomeClass></WelcomeClass>*/}
-
-                {/*<PersonDetail personId={1}></PersonDetail>*/}
-                <PersonDetailClass personId={1}></PersonDetailClass>
+                {renderPerson()}
+                {/*<PersonDetailClass personId={1}></PersonDetailClass>*/}
             </header>
         </div>
     );
