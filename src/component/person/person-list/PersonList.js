@@ -30,16 +30,13 @@ const PersonList = (props) => {
     }
 
     function renderPersonList() {
-        if (personList && personList.length > 0) {
-            return (
-                <div className="person-container">
-                    {personList.map(p => renderPersonRow(p))}
-                </div>
-            )
-        }
-        else {
-            return (<span><Loader></Loader></span>)
-        }
+        return (
+            (personList && personList.length > 0)
+                ? (<div className="person-container">
+                        {personList.map(p => renderPersonRow(p))}
+                   </div>)
+                : (<span><Loader></Loader></span>)
+        )
     }
 
     function renderPersonRow(person) {
