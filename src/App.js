@@ -4,24 +4,50 @@ import PersonList from "./component/person/person-list/PersonList";
 import {useState} from "react";
 import PersonDetail from "./component/person/person-detail/PersonDetail";
 import {Modal} from "react-bootstrap";
+import {BrowserRouter, Routes, Route, Navigate, Outlet} from "react-router-dom";
+import Login from "./component/Login/Login";
+import Layout from "./component/layout/Layout";
 
 function App() {
 
     const [editingPerson, setEditingPerson] = useState(null);
-    const [showModal, setShowModal] = useState(false);
+    const [user, setUser] = useState(null);
 
     const renderPersonDetail = (person) => {
         setEditingPerson(person);
-        setShowModal(person != null);
     }
 
+    const setLoggedUser = (user) => {
+        setUser(user)
+    }
+
+    const ProtectedRoute = ({ user}) => {
+        if (!user) {
+            return <Navigate to="/login" replace />;
+        }
+
+        return <Outlet />;
+    };
+
     return (
+
         <div className="App">
+
             <header className="App-header">
-                <PersonList onClickEdit={renderPersonDetail}></PersonList>
-                <Modal show={showModal}>
-                    <PersonDetail personId={editingPerson?.id} onGoBack={renderPersonDetail}></PersonDetail>
-                </Modal>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="login" element={<Login onLogin={setLoggedUser} />} />
+
+                        <Route element={<ProtectedRoute user={user}/>}>
+                            <Route path='/' element={<Layout></Layout>}>
+                                <Route path="list" element={<PersonList onClickEdit={renderPersonDetail}></PersonList>} />
+                                <Route path="detail" element={<PersonDetail personId={editingPerson?.id} onGoBack={renderPersonDetail} />} />
+                            </Route>
+                        </Route>
+
+                        <Route path="*" element={<Login onLogin={setLoggedUser} />} />
+                    </Routes>
+                </BrowserRouter>
             </header>
         </div>
     );

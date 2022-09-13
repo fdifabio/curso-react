@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react';
 import "./PersonList.css"
 import PropTypes from "prop-types";
 import Loader from "../../loader/loader";
+import {Link, Navigate} from "react-router-dom";
 
 const PersonList = (props) => {
 
     const [personList, setPersonList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [redirect, setRedirect] = useState(false);
 
     useEffect(() => {
         loadPersons();
@@ -46,7 +48,9 @@ const PersonList = (props) => {
                     <span>{person.firstName + ' ' + person.lastName}</span>
                     <span>{person.age}</span>
                     <div className="button-container">
-                        <button className="person-button" onClick={() => props.onClickEdit(person)}>Editar</button>
+                        <Link to="/detail" className="person-button" onClick={() => {
+                            props.onClickEdit(person);
+                        }}>Editar</Link>
                         <button>Borrar</button>
                     </div>
                 </div>
@@ -60,6 +64,7 @@ const PersonList = (props) => {
         <div>
             <h2>Listado de personas</h2>
             {renderPersonList()}
+            {/*{redirect ? <Navigate to="/detail" replace/> : ''}*/}
         </div>
     );
 };

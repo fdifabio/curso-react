@@ -3,11 +3,13 @@ import PropTypes from "prop-types";
 import './PersonDetail.css'
 import Loader from "../../loader/loader";
 import {Card} from "react-bootstrap";
+import {Navigate} from "react-router-dom";
 
 function PersonDetail(props) {
 
     const [person, setPerson] = useState({firstName: '', lastName: '', age: ''});
     const [loading, setLoading] = useState(false);
+    const [redirect, setRedirect] = useState(false);
 
 
     useEffect(() => {
@@ -58,8 +60,10 @@ function PersonDetail(props) {
                 if (res.status && res.status !== 200)
                     setLoading(false)
 
-                else
-                    props.onGoBack()
+                else {
+                    props.onGoBack();
+                    setRedirect(true);
+                }
             },
             (error) => {
                 setLoading(false)
@@ -68,34 +72,41 @@ function PersonDetail(props) {
 
     if (person) {
         return (
-            <Card>
-                <Card.Body style={{color: 'black'}}>
-                    <form onSubmit={(event) => updatePerson(event)} >
-                        <p>Editar la informacion de una persona</p>
+            <>
+                <Card>
+                    <Card.Body style={{color: 'black'}}>
+                        <form onSubmit={(event) => updatePerson(event)} >
+                            <p>Editar la informacion de una persona</p>
 
-                        <label>
-                            Nombre
-                            <input type="text" value={person.firstName} onChange={ e => handleNameChange(e.target.value)}/>
-                        </label>
-                        <br/>
+                            <label>
+                                Nombre
+                                <input type="text" value={person.firstName} onChange={ e => handleNameChange(e.target.value)}/>
+                            </label>
+                            <br/>
 
-                        <label>
-                            Apellido
-                            <input type="text" value={person.lastName} onChange={e => handleLastNameChange(e.target.value)}/>
-                        </label>
-                        <br/>
+                            <label>
+                                Apellido
+                                <input type="text" value={person.lastName} onChange={e => handleLastNameChange(e.target.value)}/>
+                            </label>
+                            <br/>
 
-                        <label>
-                            Edad
-                            <input type="number" value={person.age} onChange={e => handleAgeChange(e.target.value)}/>
-                        </label>
-                        <br/>
+                            <label>
+                                Edad
+                                <input type="number" value={person.age} onChange={e => handleAgeChange(e.target.value)}/>
+                            </label>
+                            <br/>
 
-                        <input style={{marginRight: "10px"}} type="submit" value="Guardar"/>
-                        <button onClick={() => props.onGoBack()} type="button">Cancelar</button>
-                    </form>
-                </Card.Body>
-            </Card>
+                            <input style={{marginRight: "10px"}} type="submit" value="Guardar"/>
+                            <button onClick={() => {
+                                props.onGoBack()
+                                setRedirect(true);
+                            }} type="button">Cancelar</button>
+                        </form>
+                    </Card.Body>
+                </Card>
+
+                {redirect ? <Navigate to="/list"></Navigate> : ''}
+            </>
         );
     }
 
