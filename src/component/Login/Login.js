@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {Card} from "react-bootstrap";
 import PropTypes from "prop-types";
 import {Navigate} from "react-router-dom";
+import {setAuth} from "../auth.repository.js";
 
 const Login = (props) => {
-
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -34,7 +34,7 @@ const Login = (props) => {
         fetch(process.env.REACT_APP_API_LOGIN, requestOptions ).then(res => res.json()).then(res => {
                 console.log(res);
                 if (res.token) {
-                    props.onLogin(res);
+                    setAuth([{id: 1, token: res.token}])
                     setRedirect(true);
                 }
             },
@@ -71,9 +71,5 @@ const Login = (props) => {
         </div>
     );
 };
-
-Login.propTypes = {
-    onLogin: PropTypes.func.isRequired
-}
 
 export default Login;

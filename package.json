@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ngneat/effects": "^1.1.1",
+    "@ngneat/effects-hooks": "^1.1.0",
+    "@ngneat/elf": "^2.1.0",
+    "@ngneat/elf-entities": "^4.4.2",
+    "@ngneat/elf-state-history": "^1.2.2",
+    "@ngneat/react-rxjs": "^1.1.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",

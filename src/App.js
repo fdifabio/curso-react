@@ -7,22 +7,20 @@ import {Modal} from "react-bootstrap";
 import {BrowserRouter, Routes, Route, Navigate, Outlet} from "react-router-dom";
 import Login from "./component/Login/Login";
 import Layout from "./component/layout/Layout";
+import {useObservable} from "@ngneat/react-rxjs";
+import {auth$} from "./component/auth.repository.js";
 
 function App() {
 
     const [editingPerson, setEditingPerson] = useState(null);
-    const [user, setUser] = useState(null);
+    const [user] = useObservable(auth$);
 
     const renderPersonDetail = (person) => {
         setEditingPerson(person);
     }
 
-    const setLoggedUser = (user) => {
-        setUser(user)
-    }
-
     const ProtectedRoute = ({ user}) => {
-        if (!user) {
+        if (!user || !user[0]?.token) {
             return <Navigate to="/login" replace />;
         }
 
@@ -36,7 +34,7 @@ function App() {
             <header className="App-header">
                 <BrowserRouter>
                     <Routes>
-                        <Route path="login" element={<Login onLogin={setLoggedUser} />} />
+                        <Route path="login" element={<Login />} />
 
                         <Route element={<ProtectedRoute user={user}/>}>
                             <Route path='/' element={<Layout></Layout>}>
@@ -45,7 +43,7 @@ function App() {
                             </Route>
                         </Route>
 
-                        <Route path="*" element={<Login onLogin={setLoggedUser} />} />
+                        <Route path="*" element={<Login />} />
                     </Routes>
                 </BrowserRouter>
             </header>

@@ -3,12 +3,16 @@ import "./PersonList.css"
 import PropTypes from "prop-types";
 import Loader from "../../loader/loader";
 import {Link, Navigate} from "react-router-dom";
+import {useObservable} from "@ngneat/react-rxjs";
+import {auth$, deleteAuth} from "../../auth.repository";
 
 const PersonList = (props) => {
 
     const [personList, setPersonList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [redirect, setRedirect] = useState(false);
+    const [user] = useObservable(auth$);
+
 
     useEffect(() => {
         loadPersons();
@@ -17,7 +21,7 @@ const PersonList = (props) => {
     function loadPersons() {
         setLoading(true);
         const requestOptions = {
-            headers: {'Authorization': process.env.REACT_APP_TOKEN},
+            headers: {'Authorization': user[0]?.token},
             method: 'GET',
         }
         fetch(process.env.REACT_APP_API_PERSON, requestOptions )
@@ -64,6 +68,10 @@ const PersonList = (props) => {
         <div>
             <h2>Listado de personas</h2>
             {renderPersonList()}
+
+
+            <button onClick={event => deleteAuth(1)}>Cerrar Session</button>
+
             {/*{redirect ? <Navigate to="/detail" replace/> : ''}*/}
         </div>
     );

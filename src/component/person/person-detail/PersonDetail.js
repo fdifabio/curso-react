@@ -4,12 +4,15 @@ import './PersonDetail.css'
 import Loader from "../../loader/loader";
 import {Card} from "react-bootstrap";
 import {Navigate} from "react-router-dom";
+import {useObservable} from "@ngneat/react-rxjs";
+import {auth$} from "../../auth.repository";
 
 function PersonDetail(props) {
 
     const [person, setPerson] = useState({firstName: '', lastName: '', age: ''});
     const [loading, setLoading] = useState(false);
     const [redirect, setRedirect] = useState(false);
+    const [user] = useObservable(auth$);
 
 
     useEffect(() => {
